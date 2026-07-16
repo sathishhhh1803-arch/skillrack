@@ -1,0 +1,24 @@
+#include <stdio.h>
+int main(){
+    int r, c; 
+    scanf("%d%d", &r, &c);
+    int a[r][c];
+    for(int row= 0; row< r; row++){
+        for(int col = 0; col< c; col++){
+            scanf("%d", &a[row][col]);
+        }
+    }
+    int rd[]= {-1,-1,-1,0,0,1,1,1};
+    int cd[]= {-1,0,1,-1,1,-1,0,1};
+    for(int row = 0; row<r; row++){  
+        for(int col = 0; col < c; col++){
+            int sum = 0;
+            for(int i=0; i< 8; i++){
+                int ar=row+rd[i], ac=col+cd[i];
+                if(ar>=0 && ar< r && ac>= 0 && ac< c){
+                    sum += a[ar][ac];
+                }
+            }printf("%d ", sum);
+        }printf("\n");
+    }
+}
