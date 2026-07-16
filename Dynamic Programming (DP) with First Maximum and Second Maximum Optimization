@@ -1,0 +1,14 @@
+#include <stdio.h>
+int main() {
+    int n,fir,sec=-1, curr;
+    scanf("%d%d", &n, &fir);
+    for(int i= 2; i<=n; i++){
+        scanf("%d", &curr);
+        if(curr>fir){
+            sec=fir;
+            fir=curr;
+        }else if(curr>sec){
+            sec = curr;
+        }
+    }printf("%d %d", fir, sec);
+}
