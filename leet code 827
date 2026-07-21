@@ -1,0 +1,56 @@
+class Solution {
+    const int diff[5]={0,-1,0,1,0};
+    public:
+    void dfs(int R,int C,int row,int col,vector<vector<int>>&grid,vector<vector<bool>>& vis,int isl){
+        vis[row][col]=true;
+        grid[row][col]=isl;
+        for(int i=0;i<4;i++){
+            int ar=row+diff[i],ac=col+diff[i+1];
+            if(ar>=0 && ar<R && ac>=0 && ac<C && !vis[ar][ac] && grid[ar][ac]==1){
+                dfs(R,C,ar,ac,grid,vis,isl);
+            }
+        }
+    }
+
+    public:
+    int largestIsland(vector<vector<int>>& grid) {
+        int R=grid.size();
+        int C=grid[0].size();
+        int isl=0;
+        vector<vector<bool>> vis(R,vector<bool>(C,false));
+        for(int row=0;row<R;row++) for(int col=0;col<C;col++){
+            if(grid[row][col]==1 && !vis[row][col]){
+                dfs(R,C,row,col,grid,vis,++isl);
+            }
+        }
+        vector<int> islcnt(isl+1,0);
+        for(int row=0;row<R;row++){
+            for(int col=0;col<C;col++){
+                if(grid[row][col] > 0)
+                    islcnt[grid[row][col]]++;
+            }
+        }
+        int ans = 0;
+        for(int i = 1; i <= isl; i++) ans = max(ans, islcnt[i]);
+        
+        for(int row=0;row<R;row++){
+            for(int col=0;col<C;col++){
+                if(grid[row][col]==0){
+                    set<int> si;
+                    for(int i=0;i<4;i++){
+                        int ar=row+diff[i],ac=col+diff[i+1];
+                        if(ar>=0 && ar<R && ac>=0 && ac<C && grid[ar][ac]!=0){
+                            si.insert(grid[ar][ac]);
+                        }
+                    }
+                    int currcnt=1;
+                    for(int iid:si){
+                        currcnt+=islcnt[iid];
+                    }
+                    ans=max(ans,currcnt);
+                }
+            }
+        }
+        return ans == 0 ? R * C : ans;
+    }
+};
